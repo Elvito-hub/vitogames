@@ -1,17 +1,32 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Header />
+  <QuizPart v-if="countriesData.length > 0" :countries="countriesData" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Header from "./components/Header.vue";
+import QuizPart from "./components/QuizPart.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    Header,
+    QuizPart,
+  },
+  data() {
+    return {
+      countriesData: [],
+    };
+  },
+  mounted() {
+    fetch("https://restcountries.com/v3.1/all")
+      .then((response) => response.json())
+      .then((res) => {
+        // console.log(res);
+        this.countriesData = res;
+        console.log(this.countriesData[0]);
+      });
+  },
+};
 </script>
 
 <style>
