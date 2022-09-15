@@ -1,20 +1,20 @@
 <template>
   <div>
-    <v-card class="d-flex flex-row mb-6" :color="$vuetify.theme.dark ? 'grey darken-3' : 'grey lighten-4'" flat tile>
-      <v-card :key="item" v-for="item in countryCp" class="pa-2" outlined tile>
+    <v-card class="d-flex flex-wrap" :color="$vuetify.theme.dark ? 'grey darken-3' : 'grey lighten-4'" flat tile>
+      <v-btn @click="toggleselect(item)" :color="selectedPairs.includes(item) ? 'red' : ''" v-for="item in countryCp" class="pa-2 ma-2" outlined tile>
         {{ item }}
-      </v-card>
+      </v-btn>
     </v-card>
   </div>
 </template>
 
 <script>
-import vuetify from "vuetify";
 export default {
   name: "QuizPart",
   data() {
     return {
       countryCp: [],
+      selectedPairs: [],
     };
   },
   props: {
@@ -29,6 +29,28 @@ export default {
         array[j] = temp;
       }
       return array;
+    },
+    toggleselect(item) {
+      console.log(this.selectedPairs);
+      if (this.selectedPairs.length == 0) {
+        this.selectedPairs = [...this.selectedPairs, item];
+      } else {
+        this.selectedPairs = [...this.selectedPairs, item];
+        var found = false;
+        this.countries.map((item) => {
+          if (item.capital != undefined && this.selectedPairs.includes(item.capital[0]) && this.selectedPairs.includes(item.name.common)) {
+            found = true;
+          }
+        });
+        if (found) {
+          this.countryCp = this.countryCp.filter((item) => {
+            if (!this.selectedPairs.includes(item)) {
+              return item;
+            }
+          });
+        }
+        this.selectedPairs = [];
+      }
     },
   },
   mounted() {
@@ -46,6 +68,7 @@ export default {
     });
     const shuffledarray = this.shuffleArray(countcapientries);
     this.countryCp = shuffledarray;
+    console.log(shuffledarray);
   },
 };
 </script>

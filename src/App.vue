@@ -1,6 +1,10 @@
 <template>
-  <Header />
-  <QuizPart v-if="countriesData.length > 0" :countries="countriesData" />
+  <v-app>
+    <v-main>
+      <Header />
+      <QuizPart v-if="countriesData.length > 0" :countries="countriesData" />
+    </v-main>
+  </v-app>
 </template>
 
 <script>
@@ -18,7 +22,7 @@ export default {
     };
   },
   mounted() {
-    fetch("https://restcountries.com/v3.1/all")
+    fetch("https://restcountries.com/v3.1/region/africa")
       .then((response) => response.json())
       .then((res) => {
         // console.log(res);
@@ -28,14 +32,3 @@ export default {
   },
 };
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
